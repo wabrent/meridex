@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useAccount, useBalance } from 'wagmi';
 import LandingPage from './pages/LandingPage';
 import TerminalPage from './pages/TerminalPage';
+import DexPage from './pages/DexPage';
 import Toaster from './components/Toaster';
 import type { HeroTarget } from './components/LandingHero';
 import type { TabKey } from './components/BottomSection';
@@ -21,14 +22,15 @@ import type { BetSide, Timeframe } from './types';
  *   #/terminal/pons   → terminal, deep-linked into the $MRDX tab
  *   #/terminal/history→ terminal, deep-linked into the history tab
  */
-type Route = { page: 'landing' } | { page: 'terminal'; tab: TabKey };
+type Route = { page: 'landing' } | { page: 'dex' } | { page: 'terminal'; tab: TabKey };
 
 function parseRoute(): Route {
   const raw = window.location.hash.replace(/^#\/?/, '');
+  if (raw.startsWith('dex')) return { page: 'dex' };
   if (!raw.startsWith('terminal')) return { page: 'landing' };
   const seg = raw.split('/')[1];
   const tab: TabKey = seg === 'pons' || seg === 'history' ? seg : 'live';
-  return { page: 'terminal', tab };
+  return { page: 'terminal', tab } as const;
 }
 
 const NAV_HASH: Record<HeroTarget, string> = {
@@ -36,6 +38,7 @@ const NAV_HASH: Record<HeroTarget, string> = {
   live: '#/terminal/live',
   pons: '#/terminal/pons',
   history: '#/terminal/history',
+  dex: '#/dex',
 };
 
 export default function App() {
@@ -166,6 +169,14 @@ export default function App() {
       <div className="relative z-10">
         {route.page === 'landing' ? (
           <LandingPage onNavigate={handleHeroNav} />
+        ) : route.page === 'dex' ? (
+          <DexPage
+            pons={curve}
+            mrdexPrice={curve.priceUsd}
+            mrdexChange={mrdex.change24h}
+            demoBalance={engine.user.balance}
+            onEvent={(msg, kind) => push(msg, kind)}
+          />
         ) : (
           <TerminalPage
             pair={pair}

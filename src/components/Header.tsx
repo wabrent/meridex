@@ -1,5 +1,5 @@
 import { ConnectKitButton } from 'connectkit';
-import { Activity, Radio, Wallet } from 'lucide-react';
+import { Activity, ArrowLeftRight, Radio, Wallet } from 'lucide-react';
 import BrandMark from './BrandMark';
 import { robinhoodChain } from '../lib/chains';
 import { fmtPct, fmtUsd } from '../lib/format';
@@ -58,6 +58,17 @@ export default function Header({ mrdexPrice, mrdexChange, demoBalance, walletBal
               {fmtPct(mrdexChange, 2)}
             </span>
           </div>
+        </div>
+
+        {/* DEX route */}
+        <div className="order-2 flex items-center md:order-2">
+          <a
+            href="#/dex"
+            className="flex items-center gap-1.5 rounded-full border border-ink-600 bg-[#07080a]/75 px-3 py-1.5 font-mono text-[11px] font-medium tracking-wider text-[#9c9c9d] backdrop-blur-[48px] transition-colors hover:border-[#4d4e50] hover:text-white"
+          >
+            <ArrowLeftRight size={12} />
+            SWAP
+          </a>
         </div>
 
         {/* Wallet */}

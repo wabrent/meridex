@@ -10,7 +10,7 @@ import BrandMark from './BrandMark';
  * All copy is binary-options themed and every link scrolls into the terminal.
  */
 
-export type HeroTarget = 'terminal' | 'live' | 'pons' | 'history';
+export type HeroTarget = 'terminal' | 'live' | 'pons' | 'history' | 'dex';
 
 const VIDEO_URL =
   'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260508_215831_c6a8989c-d716-4d8d-8745-e972a2eec711.mp4';
@@ -20,11 +20,13 @@ const HASH: Record<HeroTarget, string> = {
   live: '#/terminal/live',
   pons: '#/terminal/pons',
   history: '#/terminal/history',
+  dex: '#/dex',
 };
 
 const NAV: { label: string; target: HeroTarget }[] = [
   { label: 'Terminal', target: 'terminal' },
   { label: 'Rounds', target: 'live' },
+  { label: 'Swap', target: 'dex' },
   { label: '$MRDX', target: 'pons' },
   { label: 'History', target: 'history' },
 ];

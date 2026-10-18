@@ -67,7 +67,40 @@ export function usePonsCurve() {
     return { tokens, progressAfter: nextProgress };
   }, []);
 
-  return { ...state, buy, ethUsd: ETH_USD };
+  /** Pure buy quote — tokens for ETH along the curve (no state change). */
+  const quoteBuy = useCallback((ethAmount: number): { tokens: number; progressAfter: number } => {
+    const s = stateRef.current;
+    const nextProgress = Math.min(1, s.progress + ethAmount / HARD_CAP_ETH);
+    const priceUsd = BASE_PRICE_USD + nextProgress * (END_PRICE_USD - BASE_PRICE_USD);
+    return { tokens: (ethAmount * ETH_USD) / priceUsd, progressAfter: nextProgress };
+  }, []);
+
+  /** Pure sell quote — ETH out for $MRDX back into the curve (0.2% pool fee). */
+  const quoteSell = useCallback((tokenAmount: number): { eth: number; progressAfter: number } => {
+    const s = stateRef.current;
+    const eth = (tokenAmount * s.priceUsd * 0.998) / ETH_USD;
+    const progressAfter = Math.max(0, s.progress - eth / HARD_CAP_ETH);
+    return { eth, progressAfter };
+  }, []);
+
+  /** Sell $MRDX back into the curve for ETH. */
+  const sell = useCallback((tokenAmount: number): { eth: number; progressAfter: number } => {
+    const s = stateRef.current;
+    const eth = (tokenAmount * s.priceUsd * 0.998) / ETH_USD;
+    const progressAfter = Math.max(0, s.progress - eth / HARD_CAP_ETH);
+    const priceUsd = BASE_PRICE_USD + progressAfter * (END_PRICE_USD - BASE_PRICE_USD);
+    setState({
+      ...s,
+      progress: progressAfter,
+      raisedEth: HARD_CAP_ETH * progressAfter,
+      soldTokens: Math.max(0, s.soldTokens - tokenAmount),
+      priceUsd,
+      marketCapUsd: priceUsd * TOTAL_SUPPLY,
+    });
+    return { eth, progressAfter };
+  }, []);
+
+  return { ...state, buy, sell, quoteBuy, quoteSell, ethUsd: ETH_USD };
 }
 
 /** 24h change badge for the header ticker (mock drift derived from curve progress). */
