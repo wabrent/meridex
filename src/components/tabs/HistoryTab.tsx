@@ -10,7 +10,7 @@ interface HistoryTabProps {
   onClaim: (roundId: number) => void;
 }
 
-/** Tab 3 — user bet history & PnL accounting. */
+/** Tab 3 — user bet history & PnL accounting. Borderless, hairline rows. */
 export default function HistoryTab({ user, roundsById, onClaim }: HistoryTabProps) {
   const settled = user.bets.filter((b) => b.payout !== undefined);
   const wins = settled.filter((b) => b.won).length;
@@ -30,49 +30,47 @@ export default function HistoryTab({ user, roundsById, onClaim }: HistoryTabProp
   ];
 
   return (
-    <div className="space-4">
-      {/* PnL stat cards */}
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        {stats.map((s) => (
+    <div className="space-y-6">
+      {/* PnL stats — one row, hairline dividers */}
+      <div className="grid grid-cols-2 sm:grid-cols-4">
+        {stats.map((s, i) => (
           <div
             key={s.label}
-            className="relative overflow-hidden rounded-xl border border-ink-600 bg-[#07080a]/75 p-4 shadow-card backdrop-blur-[48px]"
+            className={`px-4 py-1 first:pl-0 ${i > 0 ? 'sm:border-l sm:border-white/[0.06]' : ''}`}
           >
-            <div className="font-mono text-[9px] tracking-wider text-dim">{s.label}</div>
-            <div className={`mt-1 font-mono text-lg font-bold ${s.tone}`}>{s.value}</div>
+            <div className="font-mono text-[9px] tracking-[0.18em] text-dim">{s.label}</div>
+            <div className={`mt-1 font-mono text-2xl font-semibold tabular-nums ${s.tone}`}>{s.value}</div>
           </div>
         ))}
       </div>
 
       {/* Bet ledger */}
-      <div className="overflow-hidden rounded-xl border border-ink-600 bg-[#07080a]/75 shadow-card backdrop-blur-[48px]">
-        <div className="flex items-center justify-between border-b border-ink-600 px-4 py-3">
-          <h3 className="font-display text-sm font-medium tracking-tight text-white">BET LEDGER</h3>
-          <span className="font-mono text-[9px] tracking-wider text-dim">
-            {user.bets.length} ENTRIES
-          </span>
+      <div>
+        <div className="flex items-center justify-between border-b border-white/[0.07] pb-3">
+          <h3 className="font-display text-sm font-semibold tracking-tight text-white">BET LEDGER</h3>
+          <span className="font-mono text-[9px] tracking-[0.18em] text-dim">{user.bets.length} ENTRIES</span>
         </div>
 
         {user.bets.length === 0 ? (
-          <div className="flex flex-col items-center gap-2 px-4 py-10 text-center">
+          <div className="flex flex-col items-center gap-2 py-10 text-center">
             <Gift size={22} className="text-dim" />
             <p className="font-mono text-xs text-muted">No positions yet — fire a prediction above.</p>
             <p className="font-mono text-[10px] text-dim">Demo bankroll: {fmtEth(user.balance)} available</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[640px] border-collapse">
+            <table className="w-full min-w-[680px] border-collapse">
               <thead>
-                <tr className="border-b border-ink-600/70 bg-ink-900/60 font-mono text-[9px] tracking-wider text-dim">
-                  <th className="px-4 py-2.5 text-left">TIME</th>
-                  <th className="px-4 py-2.5 text-left">ROUND</th>
-                  <th className="px-4 py-2.5 text-left">PAIR</th>
-                  <th className="px-4 py-2.5 text-left">SIDE</th>
-                  <th className="px-4 py-2.5 text-right">STAKE</th>
-                  <th className="px-4 py-2.5 text-right">STRIKE</th>
-                  <th className="px-4 py-2.5 text-right">PAYOUT</th>
-                  <th className="px-4 py-2.5 text-right">RESULT</th>
-                  <th className="px-4 py-2.5 text-right">ACTION</th>
+                <tr className="border-b border-white/[0.05] font-mono text-[9px] tracking-[0.18em] text-dim">
+                  <th className="py-2.5 pr-4 text-left">TIME</th>
+                  <th className="py-2.5 pr-4 text-left">ROUND</th>
+                  <th className="py-2.5 pr-4 text-left">PAIR</th>
+                  <th className="py-2.5 pr-4 text-left">SIDE</th>
+                  <th className="py-2.5 pr-4 text-right">STAKE</th>
+                  <th className="py-2.5 pr-4 text-right">STRIKE</th>
+                  <th className="py-2.5 pr-4 text-right">PAYOUT</th>
+                  <th className="py-2.5 pr-4 text-right">RESULT</th>
+                  <th className="py-2.5 text-right">ACTION</th>
                 </tr>
               </thead>
               <tbody>
@@ -83,46 +81,44 @@ export default function HistoryTab({ user, roundsById, onClaim }: HistoryTabProp
                   return (
                     <tr
                       key={bet.id}
-                      className="border-b border-ink-600/40 font-mono text-[11px] transition-colors hover:bg-ink-700/40"
+                      className="border-b border-white/[0.04] font-mono text-[11px] transition-colors hover:bg-white/[0.02]"
                     >
-                      <td className="px-4 py-2.5 text-muted">
+                      <td className="py-2.5 pr-4 text-muted">
                         {new Date(bet.placedAt).toLocaleTimeString('en-US', { hour12: false })}
                       </td>
-                      <td className="px-4 py-2.5 font-bold text-white">#{bet.roundId}</td>
-                      <td className="px-4 py-2.5 text-muted">{round ? getPair(round.pair).short : '—'}</td>
-                      <td className="px-4 py-2.5">
+                      <td className="py-2.5 pr-4 font-semibold text-white">#{bet.roundId}</td>
+                      <td className="py-2.5 pr-4 text-muted">{round ? getPair(round.pair).short : '—'}</td>
+                      <td className="py-2.5 pr-4">
                         <span
-                          className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium ${
-                            bet.side === 'UP'
-                              ? 'border-up/40 bg-up/10 text-up'
-                              : 'border-down/40 bg-down/10 text-down'
+                          className={`inline-flex items-center gap-1 text-[11px] font-semibold ${
+                            bet.side === 'UP' ? 'text-up' : 'text-down'
                           }`}
                         >
-                          {bet.side === 'UP' ? <ArrowUpRight size={11} /> : <ArrowDownRight size={11} />}
+                          {bet.side === 'UP' ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />}
                           {bet.side}
                         </span>
                       </td>
-                      <td className="px-4 py-2.5 text-right text-white">{fmtEth(bet.amount)}</td>
-                      <td className="px-4 py-2.5 text-right text-muted">
+                      <td className="py-2.5 pr-4 text-right text-white">{fmtEth(bet.amount)}</td>
+                      <td className="py-2.5 pr-4 text-right text-muted">
                         {round?.strikePrice != null
                           ? fmtPairPrice(round.strikePrice, getPair(round.pair).digits)
                           : '—'}
                       </td>
-                      <td className="px-4 py-2.5 text-right text-white">
+                      <td className="py-2.5 pr-4 text-right text-white">
                         {settledBet ? fmtEth(bet.payout ?? 0) : '—'}
                       </td>
-                      <td className="px-4 py-2.5 text-right">
+                      <td className="py-2.5 pr-4 text-right">
                         {!settledBet ? (
                           <span className="text-[#9c9c9d]">PENDING</span>
                         ) : bet.won === undefined ? (
                           <span className="text-muted">REFUND</span>
                         ) : bet.won ? (
-                          <span className="text-up">+{pnl.toFixed(4)}</span>
+                          <span className="font-semibold text-up">+{pnl.toFixed(4)}</span>
                         ) : (
-                          <span className="text-down">{pnl.toFixed(4)}</span>
+                          <span className="font-semibold text-down">{pnl.toFixed(4)}</span>
                         )}
                       </td>
-                      <td className="px-4 py-2.5 text-right">
+                      <td className="py-2.5 text-right">
                         {settledBet && bet.won ? (
                           <button
                             onClick={() => onClaim(bet.roundId)}

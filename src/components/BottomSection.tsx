@@ -37,14 +37,14 @@ export default function BottomSection(props: BottomSectionProps) {
   return (
     <div id="tabs" className="mt-6 scroll-mt-24">
       {/* Underline tab rail */}
-      <div className="flex items-center gap-5 overflow-x-auto border-b border-ink-600 px-1 sm:gap-7 sm:px-4">
+      <div className="flex items-center gap-5 overflow-x-auto border-b border-white/[0.07] px-1 sm:gap-7 sm:px-4">
         {tabs.map(({ key, label, icon: Icon, badge }) => {
           const active = tab === key;
           return (
             <button
               key={key}
               onClick={() => props.onTabChange(key)}
-              className={`relative -mb-px flex items-center gap-2 whitespace-nowrap pb-3 pt-1 font-display text-[13px] font-medium transition-colors duration-200 ${
+              className={`relative -mb-px flex items-center gap-2 whitespace-nowrap pb-3 pt-1 font-display text-sm font-medium transition-colors duration-200 ${
                 active ? 'text-white' : 'text-muted hover:text-white'
               }`}
             >
@@ -71,8 +71,8 @@ export default function BottomSection(props: BottomSectionProps) {
         })}
       </div>
 
-      {/* Tab body */}
-      <div className="mt-4 rounded-3xl border border-ink-600 bg-white/[0.024] p-4 backdrop-blur-[48px] sm:p-5">
+      {/* Tab body — content sits directly on the canvas, no box */}
+      <div className="mt-6">
         <AnimatePresence mode="wait">
           <motion.div
             key={tab}

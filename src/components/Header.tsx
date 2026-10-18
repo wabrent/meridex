@@ -49,12 +49,10 @@ export default function Header({ mrdexPrice, mrdexChange, demoBalance, walletBal
           </div>
 
           {/* $MRDX ticker */}
-          <div className="flex items-center gap-2 rounded-full border border-[#ff6363]/40 bg-[#ff6363]/10 px-3 py-1.5 backdrop-blur-[48px]">
-            <span className="rounded-full bg-[#ff6363] px-2 py-0.5 font-mono text-[9px] font-medium tracking-wider text-white">
-              $MRDX
-            </span>
-            <span className="font-mono text-[12px] font-medium text-white">{fmtUsd(mrdexPrice, 4)}</span>
-            <span className={`flex items-center gap-0.5 font-mono text-[11px] font-medium ${up ? 'text-up' : 'text-down'}`}>
+          <div className="flex items-center gap-2 rounded-full border border-ink-600 bg-[#07080a]/75 px-3 py-1.5 backdrop-blur-[48px]">
+            <span className="font-mono text-[10px] font-semibold tracking-wider text-muted">$MRDX</span>
+            <span className="font-mono text-[12px] font-semibold text-white">{fmtUsd(mrdexPrice, 4)}</span>
+            <span className={`flex items-center gap-0.5 font-mono text-[11px] font-semibold ${up ? 'text-up' : 'text-down'}`}>
               <Activity size={10} />
               {up ? '+' : ''}
               {fmtPct(mrdexChange, 2)}

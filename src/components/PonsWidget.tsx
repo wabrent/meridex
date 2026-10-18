@@ -15,6 +15,7 @@ interface PonsWidgetProps {
 /**
  * Pons $MRDX widget — contract address (one-click copy), live bonding-curve
  * progress, market cap, and a direct swap link out to the Pons launchpad.
+ * Borderless: hairline stats, light does the layering.
  */
 export default function PonsWidget({ curve, onCopy, onSimBuy, compact = false }: PonsWidgetProps) {
   const [copied, setCopied] = useState(false);
@@ -33,19 +34,17 @@ export default function PonsWidget({ curve, onCopy, onSimBuy, compact = false }:
   };
 
   return (
-    <div className="rounded-xl border border-ink-600 bg-[#07080a]/75 p-4 shadow-card backdrop-blur-[48px]">
+    <div className="flex flex-col gap-5">
       {/* Token identity */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#e6e6e6] font-display text-sm font-medium text-[#454647]">
+          <div className="grid h-12 w-12 place-items-center rounded-full bg-[#e6e6e6] font-display text-base font-semibold text-[#454647] shadow-[0_0_36px_-6px_rgba(230,230,230,0.45)]">
             M
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-display text-sm font-medium tracking-tight text-white">$MRDX</span>
-              <span className="rounded-full border border-ink-600 bg-ink-700 px-2 py-px font-mono text-[9px] font-medium tracking-wide text-[#9c9c9d]">
-                PONS CURVE
-              </span>
+              <span className="font-display text-base font-semibold tracking-tight text-white">$MRDX</span>
+              <span className="font-mono text-[9px] font-semibold tracking-[0.18em] text-dim">PONS CURVE</span>
             </div>
             <div className="mt-1 flex items-center gap-1.5">
               <code className="max-w-[160px] truncate font-mono text-[10px] text-muted sm:max-w-none">
@@ -71,7 +70,7 @@ export default function PonsWidget({ curve, onCopy, onSimBuy, compact = false }:
           href={PONS_SWAP_URL}
           target="_blank"
           rel="noreferrer"
-          className="group flex items-center gap-2 rounded-full border border-up/45 bg-up/10 px-4 py-2 font-display text-[12px] font-medium tracking-tight text-up transition-all duration-200 hover:bg-up/20"
+          className="group flex items-center gap-2 rounded-full bg-[#e6e6e6] px-4 py-2 font-display text-[12px] font-semibold tracking-tight text-[#0b0c0d] transition-all duration-200 hover:bg-white"
         >
           <Rocket size={14} />
           BUY ON PONS
@@ -80,66 +79,60 @@ export default function PonsWidget({ curve, onCopy, onSimBuy, compact = false }:
       </div>
 
       {/* Curve progress */}
-      <div className="mt-4">
+      <div>
         <div className="mb-2 flex items-end justify-between">
           <div>
-            <div className="font-mono text-[9px] font-medium tracking-wider text-dim">BONDING CURVE PROGRESS</div>
-            <div className="mt-0.5 font-mono text-xl font-medium text-white">
+            <div className="font-mono text-[9px] font-medium tracking-[0.18em] text-dim">BONDING CURVE PROGRESS</div>
+            <div className="mt-0.5 font-mono text-3xl font-semibold tabular-nums text-white">
               {pct.toFixed(2)}
-              <span className="text-sm text-muted">%</span>
+              <span className="text-lg text-muted">%</span>
             </div>
           </div>
           <div className="text-right">
-            <div className="font-mono text-[9px] font-medium tracking-wider text-dim">PRICE</div>
-            <div className="mt-0.5 font-mono text-base font-medium text-up">{fmtUsd(curve.priceUsd, 5)}</div>
+            <div className="font-mono text-[9px] font-medium tracking-[0.18em] text-dim">PRICE</div>
+            <div className="mt-0.5 font-mono text-xl font-semibold text-up">{fmtUsd(curve.priceUsd, 5)}</div>
           </div>
         </div>
-        <div className="relative h-2 overflow-hidden rounded-full bg-ink-700">
+        <div className="relative h-3 overflow-hidden rounded-full bg-white/[0.06]">
           <motion.div
-            className="h-full rounded-full bg-[#e6e6e6]"
+            className="h-full rounded-full bg-[#e6e6e6] shadow-[0_0_26px_rgba(230,230,230,0.4)]"
             animate={{ width: `${pct}%` }}
             transition={{ type: 'spring', stiffness: 60, damping: 20 }}
           />
         </div>
-        <div className="mt-1.5 flex justify-between font-mono text-[9px] text-dim">
+        <div className="mt-2 flex justify-between font-mono text-[9px] tracking-wide text-dim">
           <span>
-            {fmtEth(curve.raisedEth)} / {fmtEth(curve.hardCapEth)} ETH RAISED
+            {fmtEth(curve.raisedEth)} / {fmtEth(curve.hardCapEth)} RAISED
           </span>
           <span className="hidden sm:inline">LISTING @ {fmtUsd(0.001, 4)}</span>
           <span>{fmtEth(Math.max(0, curve.hardCapEth - curve.raisedEth))} REMAINING</span>
         </div>
       </div>
 
-      {/* Stats grid */}
+      {/* Stats — hairline row, no boxes */}
       {!compact && (
-        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
-          <div className="rounded-lg border border-ink-600 bg-ink-900 px-3 py-2.5">
-            <div className="font-mono text-[9px] tracking-widest text-dim">MARKET CAP</div>
-            <div className="mt-0.5 font-mono text-sm font-bold text-white">{fmtCompactUsd(curve.marketCapUsd)}</div>
-          </div>
-          <div className="rounded-lg border border-ink-600 bg-ink-900 px-3 py-2.5">
-            <div className="font-mono text-[9px] tracking-widest text-dim">RAISED</div>
-            <div className="mt-0.5 font-mono text-sm font-bold text-white">
-              {curve.raisedEth.toFixed(2)} ETH
+        <div className="grid grid-cols-2 sm:grid-cols-4">
+          {[
+            { label: 'MARKET CAP', value: fmtCompactUsd(curve.marketCapUsd), tone: 'text-white' },
+            { label: 'RAISED', value: `${curve.raisedEth.toFixed(2)} ETH`, tone: 'text-white' },
+            { label: 'SOLD', value: `${(curve.soldTokens / 1e6).toFixed(1)}M`, tone: 'text-white' },
+            { label: '24H', value: soldOut ? 'SOLD OUT' : 'PUMPING', tone: 'text-up' },
+          ].map((s, i) => (
+            <div
+              key={s.label}
+              className={`px-4 py-1 first:pl-0 ${i > 0 ? 'sm:border-l sm:border-white/[0.06]' : ''}`}
+            >
+              <div className="font-mono text-[9px] tracking-[0.18em] text-dim">{s.label}</div>
+              <div className={`mt-1 font-mono text-xl font-semibold tabular-nums ${s.tone}`}>{s.value}</div>
             </div>
-          </div>
-          <div className="rounded-lg border border-ink-600 bg-ink-900 px-3 py-2.5">
-            <div className="font-mono text-[9px] tracking-widest text-dim">SOLD</div>
-            <div className="mt-0.5 font-mono text-sm font-bold text-white">
-              {(curve.soldTokens / 1e6).toFixed(1)}M
-            </div>
-          </div>
-          <div className="rounded-lg border border-ink-600 bg-ink-900 px-3 py-2.5">
-            <div className="font-mono text-[9px] tracking-widest text-dim">24H</div>
-            <div className="mt-0.5 font-mono text-sm font-bold text-up">{soldOut ? 'SOLD OUT' : 'PUMPING'}</div>
-          </div>
+          ))}
         </div>
       )}
 
       {/* Simulated buy row (demo) */}
       {onSimBuy && (
-        <div className="mt-4 flex flex-wrap items-center gap-2 rounded-lg border border-dashed border-ink-600 bg-ink-900/60 px-3 py-2.5">
-          <span className="flex items-center gap-1.5 font-mono text-[9px] tracking-wider text-dim">
+        <div className="flex flex-wrap items-center gap-2 border-t border-white/[0.06] pt-4">
+          <span className="flex items-center gap-1.5 font-mono text-[9px] tracking-[0.18em] text-dim">
             <Flame size={11} className="text-dim" /> DEMO FILLS
           </span>
           {[0.05, 0.25, 1].map((eth) => (
@@ -147,7 +140,7 @@ export default function PonsWidget({ curve, onCopy, onSimBuy, compact = false }:
               key={eth}
               onClick={() => onSimBuy(eth)}
               disabled={soldOut}
-              className="rounded-full border border-ink-600 bg-ink-800 px-2.5 py-1 font-mono text-[10px] font-medium text-[#9c9c9d] transition-all duration-200 hover:border-[#e6e6e6] hover:bg-[#e6e6e6] hover:text-[#454647] disabled:opacity-40"
+              className="rounded-full border border-ink-600 px-2.5 py-1 font-mono text-[10px] font-medium text-[#9c9c9d] transition-all duration-200 hover:border-[#e6e6e6] hover:bg-[#e6e6e6] hover:text-[#454647] disabled:opacity-40"
             >
               +{eth} ETH
             </button>

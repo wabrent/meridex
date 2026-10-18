@@ -156,17 +156,12 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-ink-900 font-display text-white">
-      {/* Ambient terminal grid */}
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 opacity-[0.35]"
-        style={{
-          backgroundImage:
-            'linear-gradient(rgba(54,55,57,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(54,55,57,0.4) 1px, transparent 1px)',
-          backgroundSize: '56px 56px',
-          maskImage: 'radial-gradient(ellipse 90% 70% at 50% 0%, black 30%, transparent 80%)',
-        }}
-      />
+      {/* Ambient light — soft glows instead of a grid */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute -top-40 left-1/2 h-[520px] w-[1100px] -translate-x-1/2 rounded-full bg-white/[0.045] blur-[150px]" />
+        <div className="absolute -left-48 top-1/3 h-[420px] w-[420px] rounded-full bg-up/[0.05] blur-[160px]" />
+        <div className="absolute -right-48 top-1/2 h-[420px] w-[420px] rounded-full bg-down/[0.05] blur-[160px]" />
+      </div>
 
       <div className="relative z-10">
         {route.page === 'landing' ? (
