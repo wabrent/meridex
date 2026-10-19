@@ -26,7 +26,7 @@ function Logo() {
   );
 }
 
-/** Fixed top bar: brand, network status, $OPTION ticker, wallet connect. */
+/** Fixed top bar: brand, network status, $MRDX ticker, wallet connect. */
 export default function Header({ mrdexPrice, mrdexChange, demoBalance, walletBalance, isConnected }: HeaderProps) {
   const up = mrdexChange >= 0;
   return (
@@ -48,9 +48,9 @@ export default function Header({ mrdexPrice, mrdexChange, demoBalance, walletBal
             <span className="hidden font-mono text-[10px] text-dim sm:inline">CH:{robinhoodChain.id}</span>
           </div>
 
-          {/* $OPTION ticker */}
+          {/* $MRDX ticker */}
           <div className="flex items-center gap-2 rounded-full border border-ink-600 bg-[#07080a]/75 px-3 py-1.5 backdrop-blur-[48px]">
-            <span className="font-mono text-[10px] font-semibold tracking-wider text-muted">$OPTION</span>
+            <span className="font-mono text-[10px] font-semibold tracking-wider text-muted">$MRDX</span>
             <span className="font-mono text-[12px] font-semibold text-white">{fmtUsd(mrdexPrice, 4)}</span>
             <span className={`flex items-center gap-0.5 font-mono text-[11px] font-semibold ${up ? 'text-up' : 'text-down'}`}>
               <Activity size={10} />

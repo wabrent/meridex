@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { PonsCurveState } from '../types';
 
 const HARD_CAP_ETH = 500;
-const TOTAL_SUPPLY = 1_000_000_000; // 1B $OPTION
+const TOTAL_SUPPLY = 1_000_000_000; // 1B $MRDX
 const BASE_PRICE_USD = 0.0002;
 const END_PRICE_USD = 0.001;
 const ETH_USD = 2412.5;

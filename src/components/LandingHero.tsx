@@ -27,7 +27,7 @@ const NAV: { label: string; target: HeroTarget }[] = [
   { label: 'Terminal', target: 'terminal' },
   { label: 'Rounds', target: 'live' },
   { label: 'Swap', target: 'dex' },
-  { label: '$OPTION', target: 'pons' },
+  { label: '$MRDX', target: 'pons' },
   { label: 'History', target: 'history' },
 ];
 

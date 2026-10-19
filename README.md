@@ -2,7 +2,7 @@
 
 High-performance, dark-themed decentralized binary options app for **Robinhood Chain**.
 Predict **UP / DOWN** on fixed **1m / 5m** rounds, settle against a parimutuel pool, and track
-the **$OPTION** Pons bonding curve — all from one cinematic neo-terminal.
+the **$MRDX** Pons bonding curve — all from one cinematic neo-terminal.
 
 ![palette](https://img.shields.io/badge/theme-raycast%20dark-040506) ![MRDX](https://img.shields.io/badge/token-%24MRDX-e6e6e6)
 
@@ -33,16 +33,16 @@ The landing and the terminal are **separate pages** (hash routing, no extra deps
 | `#/`                 | Landing — fullscreen video hero                        |
 | `#/terminal`         | Terminal (default tab: Live Rounds)                    |
 | `#/terminal/live`    | Terminal, Live Rounds deep link                        |
-| `#/terminal/pons`    | Terminal, $OPTION Pons Curve deep link                   |
+| `#/terminal/pons`    | Terminal, $MRDX Pons Curve deep link                   |
 | `#/terminal/history` | Terminal, History & PnL deep link                      |
-| `#/dex`              | DEX — ETH ⇄ $OPTION swap on the live Pons curve          |
+| `#/dex`              | DEX — ETH ⇄ $MRDX swap on the live Pons curve          |
 
 ## DEX
 
 `#/dex` is a swap terminal wired straight into the same Pons bonding curve the widget shows:
 
-- **ETH ⇄ $OPTION** both directions — quotes, price impact, and the 0.2% pool fee come from the live curve state (buys walk the price up, sells walk it back down)
-- Market panel: $OPTION/ETH sparkline that keeps appending live points, market cap / curve % / remaining stats
+- **ETH ⇄ $MRDX** both directions — quotes, price impact, and the 0.2% pool fee come from the live curve state (buys walk the price up, sells walk it back down)
+- Market panel: $MRDX/ETH sparkline that keeps appending live points, market cap / curve % / remaining stats
 - **LIVE SWAPS** feed — ambient swaps every ~2–3s, your own swaps land as a highlighted **YOU** row
 - Demo balances, no wallet needed: every swap mutates the shared curve, so the Pons widget on the terminal moves too
 
@@ -50,7 +50,7 @@ The landing and the terminal are **separate pages** (hash routing, no extra deps
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
-│ HEADER   Meridex logo · Robinhood Chain status · $OPTION ticker · WALLET│
+│ HEADER   Meridex logo · Robinhood Chain status · $MRDX ticker · WALLET│
 ├──────────────────────────────────────────────────────────────────────┤
 │ CHART CARD (rounded-28px, cinematic)                                 │
 │  pair pills ETH · BTC · SOL · XRP · DOGE   timeframe 1M · 5M         │
@@ -60,7 +60,7 @@ The landing and the terminal are **separate pages** (hash routing, no extra deps
 │  │ FLOATING BETTING BAND:  UP 2.13x │ stake · chips · pool bar │ DOWN│ │
 │  └────────────────────────────────────────────────────────────────┘  │
 ├──────────────────────────────────────────────────────────────────────┤
-│ TABS   ① Live Rounds   ② $OPTION Pons Curve   ③ History & PnL          │
+│ TABS   ① Live Rounds   ② $MRDX Pons Curve   ③ History & PnL          │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -88,7 +88,7 @@ ACCEPTING_BETS ──(lock time)──▶ LOCKED ──(round end)──▶ CALC
 ```
 src/
 ├── pages/               # LandingPage (video hero), TerminalPage (chart + band + tabs),
-│                        #   DexPage (ETH ⇄ $OPTION swap on the Pons curve)
+│                        #   DexPage (ETH ⇄ $MRDX swap on the Pons curve)
 ├── components/          # Header, ChartPanel, PriceChart, BettingBand, Footer,
 │   └── tabs/            #   BottomSection, PonsWidget, Toaster + the 3 tabs
 ├── hooks/               # useMarketFeed, useRoundEngine, usePonsCurve,
@@ -124,7 +124,7 @@ claimReward(uint256 roundId)                        // History tab → CLAIM but
 When no wallet is connected (or addresses are unset), every bet runs purely in the local
 round engine — the terminal never breaks, it just stays in demo mode.
 
-### Pons $OPTION widget
+### Pons $MRDX widget
 
 - Contract address with one-click copy
 - Live bonding-curve progress bar, market cap, price, raised ETH

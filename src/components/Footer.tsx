@@ -8,7 +8,7 @@ export default function Footer() {
       <span className="flex flex-wrap items-center gap-3">
         <span>PROTOCOL FEE 2%</span>
         <span className="text-ink-500">|</span>
-        <span>$OPTION POWERED</span>
+        <span>$MRDX POWERED</span>
         <span className="text-ink-500">|</span>
         <a
           href="https://www.tradingview.com/"

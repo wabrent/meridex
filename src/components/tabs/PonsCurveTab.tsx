@@ -7,7 +7,7 @@ interface PonsCurveTabProps {
   onSimBuy: (eth: number) => void;
 }
 
-/** Tab 2 — $OPTION Pons bonding curve tracker. Borderless, hairline column split. */
+/** Tab 2 — $MRDX Pons bonding curve tracker. Borderless, hairline column split. */
 export default function PonsCurveTab({ curve, onCopy, onSimBuy }: PonsCurveTabProps) {
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
@@ -19,13 +19,13 @@ export default function PonsCurveTab({ curve, onCopy, onSimBuy }: PonsCurveTabPr
           <h3 className="font-display text-sm font-semibold tracking-tight text-white">PROTOCOL REVENUE</h3>
           <p className="mt-2 font-mono text-[11px] leading-relaxed text-muted">
             Every settled round skims a <span className="text-up">2% protocol fee</span> from the winning
-            pool. Fees are swept to the treasury and converted into <span className="text-accent2">$OPTION</span>,
+            pool. Fees are swept to the treasury and converted into <span className="text-accent2">$MRDX</span>,
             linking terminal volume directly to token demand.
           </p>
           <div className="mt-4 space-y-3">
             {[
               { label: 'Round fees → treasury', value: '2.0%', color: 'text-up', width: '40%' },
-              { label: 'Treasury → $OPTION buybacks', value: '60%', color: 'text-accent2', width: '60%' },
+              { label: 'Treasury → $MRDX buybacks', value: '60%', color: 'text-accent2', width: '60%' },
               { label: 'LP / insurance reserve', value: '40%', color: 'text-[#9c9c9d]', width: '40%' },
             ].map((row) => (
               <div key={row.label}>
@@ -45,13 +45,13 @@ export default function PonsCurveTab({ curve, onCopy, onSimBuy }: PonsCurveTabPr
         </div>
 
         <div className="border-t border-white/[0.06] pt-4">
-          <div className="font-mono text-[9px] font-medium tracking-[0.18em] text-[#9c9c9d]">WHY $OPTION</div>
+          <div className="font-mono text-[9px] font-medium tracking-[0.18em] text-[#9c9c9d]">WHY $MRDX</div>
           <ul className="mt-2 space-y-2 font-mono text-[11px] leading-relaxed text-muted">
             <li className="flex gap-2">
-              <span className="text-dim">▸</span> Fee-share snapshots for holders above 100K $OPTION.
+              <span className="text-dim">▸</span> Fee-share snapshots for holders above 100K $MRDX.
             </li>
             <li className="flex gap-2">
-              <span className="text-dim">▸</span> Round multiplier boosts paid in $OPTION.
+              <span className="text-dim">▸</span> Round multiplier boosts paid in $MRDX.
             </li>
             <li className="flex gap-2">
               <span className="text-dim">▸</span> Governance over new oracle pairs &amp; timeframes.

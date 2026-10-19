@@ -23,14 +23,14 @@ interface BottomSectionProps {
   onClaim: (roundId: number) => void;
 }
 
-/** Bottom area: Live Rounds · $OPTION Pons Curve · Bet History & PnL.
+/** Bottom area: Live Rounds · $MRDX Pons Curve · Bet History & PnL.
  *  Underline-style left-aligned tabs (Claude reference), Mist active accent. */
 export default function BottomSection(props: BottomSectionProps) {
   const tab = props.tab;
 
   const tabs: { key: TabKey; label: string; icon: typeof Activity; badge?: string }[] = [
     { key: 'live', label: 'LIVE ROUNDS', icon: Activity, badge: `${props.currentRound.bets.length}` },
-    { key: 'pons', label: '$OPTION PONS CURVE', icon: LineChart, badge: `${(props.curve.progress * 100).toFixed(0)}%` },
+    { key: 'pons', label: '$MRDX PONS CURVE', icon: LineChart, badge: `${(props.curve.progress * 100).toFixed(0)}%` },
     { key: 'history', label: 'HISTORY & PNL', icon: Wallet2, badge: `${props.user.bets.length}` },
   ];
 

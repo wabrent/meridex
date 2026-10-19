@@ -19,7 +19,7 @@ import type { BetSide, Timeframe } from './types';
  * Hash-based routing — the landing hero and the terminal are separate pages:
  *   #/                → landing (video hero)
  *   #/terminal        → terminal (default tab: live)
- *   #/terminal/pons   → terminal, deep-linked into the $OPTION tab
+ *   #/terminal/pons   → terminal, deep-linked into the $MRDX tab
  *   #/terminal/history→ terminal, deep-linked into the history tab
  */
 type Route = { page: 'landing' } | { page: 'dex' } | { page: 'terminal'; tab: TabKey };
@@ -85,7 +85,7 @@ export default function App() {
   // --- round state machine (ACCEPTING_BETS → LOCKED → CALCULATING → SETTLED) ---
   const engine = useRoundEngine(priceRefs, timeframe, pair);
 
-  // --- $OPTION / Pons curve ---
+  // --- $MRDX / Pons curve ---
   const curve = usePonsCurve();
   const mrdex = useMrdexBadge(curve.priceUsd);
 
@@ -152,7 +152,7 @@ export default function App() {
   const handleSimBuy = (eth: number) => {
     const { tokens, progressAfter } = curve.buy(eth);
     push(
-      `Bought ${(tokens / 1e6).toFixed(2)}M $OPTION with ${eth} ETH — curve at ${(progressAfter * 100).toFixed(2)}%`,
+      `Bought ${(tokens / 1e6).toFixed(2)}M $MRDX with ${eth} ETH — curve at ${(progressAfter * 100).toFixed(2)}%`,
       'up',
     );
   };
@@ -195,7 +195,7 @@ export default function App() {
             onPlaceBet={handlePlaceBet}
             onClaim={handleClaim}
             onSimBuy={handleSimBuy}
-            onCopy={() => push('$OPTION contract address copied to clipboard', 'accent')}
+            onCopy={() => push('$MRDX contract address copied to clipboard', 'accent')}
           />
         )}
       </div>
