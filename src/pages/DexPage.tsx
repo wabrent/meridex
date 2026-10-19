@@ -50,7 +50,7 @@ function TokenIcon({ kind }: { kind: 'ETH' | 'MRDX' }) {
 
 /**
  * `#/dex` — swap terminal on the live Pons bonding curve:
- * glass swap card (ETH ⇄ $MRDX, price impact straight from the curve),
+ * glass swap card (ETH ⇄ $OPTION, price impact straight from the curve),
  * market sparkline, and a live swaps feed.
  */
 export default function DexPage({ pons, mrdexPrice, mrdexChange, demoBalance, onEvent }: DexPageProps) {
@@ -93,7 +93,7 @@ export default function DexPage({ pons, mrdexPrice, mrdexChange, demoBalance, on
         out: tokens,
         outD: 0,
         impact: Math.max(0, (eff / priceUsd - 1) * 100),
-        rate: `1 ETH = ${fmtNum(tokens / num, 0)} $MRDX`,
+        rate: `1 ETH = ${fmtNum(tokens / num, 0)} $OPTION`,
         outUsd: tokens * priceUsd,
       };
     }
@@ -104,7 +104,7 @@ export default function DexPage({ pons, mrdexPrice, mrdexChange, demoBalance, on
       out: eth,
       outD: 4,
       impact: Math.max(0, (priceUsd / eff - 1) * 100),
-      rate: `1 $MRDX = ${fmtNum(eth / num, 8)} ETH`,
+      rate: `1 $OPTION = ${fmtNum(eth / num, 8)} ETH`,
       outUsd: eth * pons.ethUsd,
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -125,13 +125,13 @@ export default function DexPage({ pons, mrdexPrice, mrdexChange, demoBalance, on
       setEthBal((b) => b - num);
       setMrdxBal((b) => b + tokens);
       pushFeed('BUY', num, tokens);
-      onEvent(`Swapped ${fmtNum(num, 4)} ETH → ${fmtNum(tokens, 0)} $MRDX`, 'up');
+      onEvent(`Swapped ${fmtNum(num, 4)} ETH → ${fmtNum(tokens, 0)} $OPTION`, 'up');
     } else {
       const { eth } = pons.sell(num);
       setMrdxBal((b) => b - num);
       setEthBal((b) => b + eth);
       pushFeed('SELL', eth, num);
-      onEvent(`Sold ${fmtNum(num, 0)} $MRDX → ${fmtNum(eth, 4)} ETH`, 'down');
+      onEvent(`Sold ${fmtNum(num, 0)} $OPTION → ${fmtNum(eth, 4)} ETH`, 'down');
     }
     setLastSwapAt(Date.now());
   };
@@ -175,7 +175,7 @@ export default function DexPage({ pons, mrdexPrice, mrdexChange, demoBalance, on
   const sparkArea = `0,100 ${sparkLine} 100,100`;
   const sparkChange = (pts[pts.length - 1] / pts[0] - 1) * 100;
 
-  const fromTokenLabel = fromIsEth ? 'ETH' : '$MRDX';
+  const fromTokenLabel = fromIsEth ? 'ETH' : '$OPTION';
 
   return (
     <div className="min-h-screen">
@@ -190,7 +190,7 @@ export default function DexPage({ pons, mrdexPrice, mrdexChange, demoBalance, on
         <div className="mb-5 flex items-baseline gap-3">
           <h1 className="font-display text-2xl font-semibold tracking-tight text-white">SWAP</h1>
           <span className="font-mono text-[10px] tracking-[0.18em] text-dim">
-            $MRDX BONDING-CURVE DEX · LIVE ON ROBINHOOD CHAIN
+            $OPTION BONDING-CURVE DEX · LIVE ON ROBINHOOD CHAIN
           </span>
         </div>
 
@@ -265,7 +265,7 @@ export default function DexPage({ pons, mrdexPrice, mrdexChange, demoBalance, on
                               <span className="flex items-center gap-2.5">
                                 <TokenIcon kind={tk} />
                                 <span className="font-display text-sm font-semibold text-white">
-                                  {tk === 'ETH' ? 'ETH' : '$MRDX'}
+                                  {tk === 'ETH' ? 'ETH' : '$OPTION'}
                                 </span>
                               </span>
                               <span className="font-mono text-[11px] text-muted">
@@ -301,7 +301,7 @@ export default function DexPage({ pons, mrdexPrice, mrdexChange, demoBalance, on
                 <span className="text-dim">TO</span>
                 <span className="text-muted">
                   balance {fmtNum(fromIsEth ? mrdxBal : ethBal, fromIsEth ? 0 : 4)}{' '}
-                  {fromIsEth ? '$MRDX' : 'ETH'}
+                  {fromIsEth ? '$OPTION' : 'ETH'}
                 </span>
               </div>
               <div className="mt-2 flex items-center gap-3">
@@ -311,7 +311,7 @@ export default function DexPage({ pons, mrdexPrice, mrdexChange, demoBalance, on
                 <div className="flex shrink-0 items-center gap-2 rounded-full border border-white/10 bg-white/[0.05] py-1.5 pl-1.5 pr-3">
                   <TokenIcon kind={fromIsEth ? 'MRDX' : 'ETH'} />
                   <span className="font-display text-sm font-semibold text-white">
-                    {fromIsEth ? '$MRDX' : 'ETH'}
+                    {fromIsEth ? '$OPTION' : 'ETH'}
                   </span>
                 </div>
               </div>
@@ -376,7 +376,7 @@ export default function DexPage({ pons, mrdexPrice, mrdexChange, demoBalance, on
                   <TokenIcon kind="MRDX" />
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-display text-base font-semibold text-white">$MRDX / ETH</span>
+                      <span className="font-display text-base font-semibold text-white">$OPTION / ETH</span>
                       <span className="flex items-center gap-1 font-mono text-[9px] tracking-[0.18em] text-dim">
                         <Sparkles size={10} className="text-accent2" /> PONS CURVE
                       </span>
@@ -484,7 +484,7 @@ export default function DexPage({ pons, mrdexPrice, mrdexChange, demoBalance, on
                         </span>
                         <span className="block font-mono text-[10px] text-dim">
                           {row.side === 'BUY' ? '+' : '−'}
-                          {fmtNum(row.tokens, 0)} MRDX
+                          {fmtNum(row.tokens, 0)} OPTION
                         </span>
                       </span>
                     </motion.div>

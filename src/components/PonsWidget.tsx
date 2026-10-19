@@ -13,7 +13,7 @@ interface PonsWidgetProps {
 }
 
 /**
- * Pons $MRDX widget — contract address (one-click copy), live bonding-curve
+ * Pons $OPTION widget — contract address (one-click copy), live bonding-curve
  * progress, market cap, and a direct swap link out to the Pons launchpad.
  * Borderless: hairline stats, light does the layering.
  */
@@ -43,7 +43,7 @@ export default function PonsWidget({ curve, onCopy, onSimBuy, compact = false }:
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-display text-base font-semibold tracking-tight text-white">$MRDX</span>
+              <span className="font-display text-base font-semibold tracking-tight text-white">$OPTION</span>
               <span className="font-mono text-[9px] font-semibold tracking-[0.18em] text-dim">PONS CURVE</span>
             </div>
             <div className="mt-1 flex items-center gap-1.5">
@@ -52,7 +52,7 @@ export default function PonsWidget({ curve, onCopy, onSimBuy, compact = false }:
               </code>
               <button
                 onClick={copy}
-                aria-label="Copy $MRDX contract address"
+                aria-label="Copy $OPTION contract address"
                 className="rounded p-1 text-muted transition-colors hover:bg-ink-700 hover:text-white"
               >
                 {copied ? <Check size={12} className="text-up" /> : <Copy size={12} />}
